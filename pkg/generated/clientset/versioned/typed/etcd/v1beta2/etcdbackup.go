@@ -19,6 +19,7 @@ limitations under the License.
 package v1beta2
 
 import (
+	"context"
 	v1beta2 "github.com/coreos/etcd-operator/pkg/apis/etcd/v1beta2"
 	scheme "github.com/coreos/etcd-operator/pkg/generated/clientset/versioned/scheme"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -64,7 +65,7 @@ func newEtcdBackups(c *EtcdV1beta2Client, namespace string) *etcdBackups {
 // Get takes name of the etcdBackup, and returns the corresponding etcdBackup object, and an error if there is any.
 func (c *etcdBackups) Get(name string, options v1.GetOptions) (result *v1beta2.EtcdBackup, err error) {
 	result = &v1beta2.EtcdBackup{}
-	err = c.client.Get().
+	err = c.client.Get(context.Context).
 		Namespace(c.ns).
 		Resource("etcdbackups").
 		Name(name).
@@ -77,7 +78,7 @@ func (c *etcdBackups) Get(name string, options v1.GetOptions) (result *v1beta2.E
 // List takes label and field selectors, and returns the list of EtcdBackups that match those selectors.
 func (c *etcdBackups) List(opts v1.ListOptions) (result *v1beta2.EtcdBackupList, err error) {
 	result = &v1beta2.EtcdBackupList{}
-	err = c.client.Get().
+	err = c.client.Get(context.Context).
 		Namespace(c.ns).
 		Resource("etcdbackups").
 		VersionedParams(&opts, scheme.ParameterCodec).
@@ -89,7 +90,7 @@ func (c *etcdBackups) List(opts v1.ListOptions) (result *v1beta2.EtcdBackupList,
 // Watch returns a watch.Interface that watches the requested etcdBackups.
 func (c *etcdBackups) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	opts.Watch = true
-	return c.client.Get().
+	return c.client.Get(context.Context).
 		Namespace(c.ns).
 		Resource("etcdbackups").
 		VersionedParams(&opts, scheme.ParameterCodec).
@@ -99,7 +100,7 @@ func (c *etcdBackups) Watch(opts v1.ListOptions) (watch.Interface, error) {
 // Create takes the representation of a etcdBackup and creates it.  Returns the server's representation of the etcdBackup, and an error, if there is any.
 func (c *etcdBackups) Create(etcdBackup *v1beta2.EtcdBackup) (result *v1beta2.EtcdBackup, err error) {
 	result = &v1beta2.EtcdBackup{}
-	err = c.client.Post().
+	err = c.client.Post(context.Context).
 		Namespace(c.ns).
 		Resource("etcdbackups").
 		Body(etcdBackup).
@@ -111,7 +112,7 @@ func (c *etcdBackups) Create(etcdBackup *v1beta2.EtcdBackup) (result *v1beta2.Et
 // Update takes the representation of a etcdBackup and updates it. Returns the server's representation of the etcdBackup, and an error, if there is any.
 func (c *etcdBackups) Update(etcdBackup *v1beta2.EtcdBackup) (result *v1beta2.EtcdBackup, err error) {
 	result = &v1beta2.EtcdBackup{}
-	err = c.client.Put().
+	err = c.client.Put(context.Context).
 		Namespace(c.ns).
 		Resource("etcdbackups").
 		Name(etcdBackup.Name).
@@ -126,7 +127,7 @@ func (c *etcdBackups) Update(etcdBackup *v1beta2.EtcdBackup) (result *v1beta2.Et
 
 func (c *etcdBackups) UpdateStatus(etcdBackup *v1beta2.EtcdBackup) (result *v1beta2.EtcdBackup, err error) {
 	result = &v1beta2.EtcdBackup{}
-	err = c.client.Put().
+	err = c.client.Put(context.Context).
 		Namespace(c.ns).
 		Resource("etcdbackups").
 		Name(etcdBackup.Name).
@@ -139,7 +140,7 @@ func (c *etcdBackups) UpdateStatus(etcdBackup *v1beta2.EtcdBackup) (result *v1be
 
 // Delete takes name of the etcdBackup and deletes it. Returns an error if one occurs.
 func (c *etcdBackups) Delete(name string, options *v1.DeleteOptions) error {
-	return c.client.Delete().
+	return c.client.Delete(context.Context).
 		Namespace(c.ns).
 		Resource("etcdbackups").
 		Name(name).
@@ -150,7 +151,7 @@ func (c *etcdBackups) Delete(name string, options *v1.DeleteOptions) error {
 
 // DeleteCollection deletes a collection of objects.
 func (c *etcdBackups) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
-	return c.client.Delete().
+	return c.client.Delete(context.Context).
 		Namespace(c.ns).
 		Resource("etcdbackups").
 		VersionedParams(&listOptions, scheme.ParameterCodec).
@@ -162,7 +163,7 @@ func (c *etcdBackups) DeleteCollection(options *v1.DeleteOptions, listOptions v1
 // Patch applies the patch and returns the patched etcdBackup.
 func (c *etcdBackups) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1beta2.EtcdBackup, err error) {
 	result = &v1beta2.EtcdBackup{}
-	err = c.client.Patch(pt).
+	err = c.client.Patch(context.Context, pt).
 		Namespace(c.ns).
 		Resource("etcdbackups").
 		SubResource(subresources...).
